@@ -17,13 +17,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.khw.quranicvocab.data.model.Vocab
 import com.khw.quranicvocab.ui.screens.vocabs.viewModel.VocabsViewModel
 
 @Composable
-fun Review(
-    viewModel: VocabsViewModel,
+fun VocabsScreen(
+    viewModel: VocabsViewModel = hiltViewModel(),
 ) {
     val state = viewModel.getAllVocabs().collectAsStateWithLifecycle(emptyList()).value
 

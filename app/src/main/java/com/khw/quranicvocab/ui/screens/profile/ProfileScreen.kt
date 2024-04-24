@@ -17,11 +17,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.khw.quranicvocab.ui.screens.profile.viewModel.ProfileViewModel
+import androidx.navigation.NavController
 
 @Composable
-fun Profile(
-    viewModel: ProfileViewModel,
+fun ProfileScreen(
+    navController: NavController,
 ) {
     Column(
         modifier = Modifier.padding(20.dp),

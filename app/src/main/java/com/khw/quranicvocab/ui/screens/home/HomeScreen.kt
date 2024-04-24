@@ -26,7 +26,7 @@ import com.khw.quranicvocab.ui.navigation.Screen
 import com.khw.quranicvocab.ui.screens.home.viewModel.HomeViewModel
 
 @Composable
-fun Home(
+fun HomeScreen(
     navController: NavController,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {

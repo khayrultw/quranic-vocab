@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.khw.quranicvocab.ui.screens.home.Home
-import com.khw.quranicvocab.ui.screens.practice.Practice
+import com.khw.quranicvocab.ui.screens.practice.PracticeScreen
+import com.khw.quranicvocab.ui.screens.tabContainer.TabContainer
 
 @Composable
 fun Navigation() {
@@ -13,11 +13,11 @@ fun Navigation() {
 
     NavHost(navController = navController, startDestination = Screen.Home.route) {
         composable(Screen.Home.route) {
-            Home(navController = navController)
+            TabContainer(navController = navController)
         }
 
         composable(Screen.Practice.route) {
-            Practice(navController = navController)
+            PracticeScreen(navController = navController)
         }
     }
 }
