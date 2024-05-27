@@ -94,3 +94,12 @@ fun VocabButton(title: String, icon: Int, onClick: () -> Unit) {
         Text(text = title.uppercase())
     }
 }
+
+fun displayDayOfWeek(dayOfWeek: Int) {
+
+}
+
+/*
+The function should display Monday for the value 1, Tuesday for the value 2 and go on.
+display "Invalid day of week" for any number other than 1 to 7
+ */
