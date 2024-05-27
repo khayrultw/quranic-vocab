@@ -23,3 +23,5 @@ sealed class NestedScreen(
     data object Vocabs: NestedScreen("vocabs", R.string.vocabs, Icons.Default.Book)
     data object Profile: NestedScreen("practice", R.string.profile, Icons.Default.Person)
 }
+
+// dev
