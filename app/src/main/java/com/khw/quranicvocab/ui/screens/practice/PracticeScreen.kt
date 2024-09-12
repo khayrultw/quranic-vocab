@@ -1,151 +1,286 @@
 package com.khw.quranicvocab.ui.screens.practice
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Surface
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.khw.quranicvocab.R
-import com.khw.quranicvocab.data.model.Vocab
-import com.khw.quranicvocab.ui.screens.practice.viewModel.PracticeViewModel
+import com.khw.quranicvocab.ui.composables.ProgressCircle
 
 @Composable
 fun PracticeScreen(
-    navController: NavController,
-    viewModel: PracticeViewModel = hiltViewModel()
+    navController: NavController = rememberNavController()
 ) {
-    val state = viewModel.state.collectAsStateWithLifecycle().value
+    var selectedAnswer by remember { mutableStateOf<String?>(null) }
+    var isAnswerChecked by remember { mutableStateOf(false) }
+    var isAnswerCorrect by remember { mutableStateOf(false) }
 
-    fun done() {
+    val answers = listOf("The Travelers", "The Believers", "Seek Forgiveness")
+    val correctAnswer = "The Believers"
 
-    }
-
-    fun needPractice() {
-
-    }
-
-    fun reset() {
-
-    }
-
-    Column(
-        modifier = Modifier.fillMaxSize().padding(20.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
     ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(modifier = Modifier.height(16.dp))
 
-        if (state.vocab.meanings.isNotEmpty()) {
-            TextButton(
-                onClick = { /*TODO*/ },
-                modifier = Modifier
-            ) {
-                Text(
-                    text = "You practiced ${state.doneCount} words",
-                    style = MaterialTheme.typography.titleMedium
-                )
-            }
-            Progress(modifier = Modifier.padding(top = 10.dp))
+            Text(
+                "You've practiced 10 words",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Medium
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            ProgressCircle(current = 10, total = 20)
+
+            Spacer(modifier = Modifier.height(8.dp))
+
             Text(
                 "Today's Target",
-                modifier = Modifier.padding(top = 10.dp),
-                style = MaterialTheme.typography.bodyMedium
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Medium
             )
-            Spacer(modifier = Modifier.weight(0.2f))
-            Vocab(vocab = state.vocab)
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            Text(
+                "المُؤمِنون",
+                fontSize = 32.sp,
+                fontWeight = FontWeight.Bold
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            answers.forEach { answer ->
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .selectable(
+                            selected = (answer == selectedAnswer),
+                            onClick = { selectedAnswer = answer }
+                        ),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    RadioButton(
+                        selected = (answer == selectedAnswer),
+                        onClick = { selectedAnswer = answer },
+                        colors = RadioButtonDefaults.colors(
+                            selectedColor = when {
+                                isAnswerChecked && answer == correctAnswer -> Color.Green
+                                isAnswerChecked && answer == selectedAnswer && !isAnswerCorrect -> Color.Red
+                                else -> Color.Blue
+                            }
+                        )
+                    )
+                    Text(
+                        text = answer,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(start = 4.dp)
+                    )
+                }
+            }
+
             Spacer(modifier = Modifier.weight(1f))
-            OutlinedButton(
+
+            Button(
+                onClick = {
+                    isAnswerChecked = true
+                    isAnswerCorrect = selectedAnswer == correctAnswer
+                },
                 modifier = Modifier
-                    .defaultMinSize(minWidth = 120.dp)
-                    .fillMaxWidth(0.6f),
-                shape = RoundedCornerShape(10.dp),
-                onClick = { done() }
+                    .fillMaxWidth()
+                    .height(56.dp),
+                colors = ButtonDefaults.buttonColors(
+                    contentColor = when {
+                        !isAnswerChecked -> Color(0xFF2196F3)
+                        isAnswerCorrect -> Color.Green
+                        else -> Color.Red
+                    }
+                ),
+                shape = RoundedCornerShape(8.dp)
             ) {
                 Text(
-                    text = stringResource(id = R.string.check),
-                    fontWeight = FontWeight.W500
+                    when {
+                        !isAnswerChecked -> "Check"
+                        isAnswerCorrect -> "Next"
+                        else -> "Try Again"
+                    },
+                    color = Color.White,
+                    fontSize = 18.sp
                 )
             }
-            Spacer(modifier = Modifier.height(20.dp))
-        } else {
-            Text(text = stringResource(id = R.string.need_practice))
         }
     }
 }
 
-@Composable
-fun Vocab(vocab: Vocab) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Spacer(modifier = Modifier.height(20.dp))
-        Text(
-            text = vocab.word,
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.W500
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = vocab.meanings,
-            style = MaterialTheme.typography.bodyLarge,
-            fontWeight = FontWeight.W500,
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-    }
-}
-
-@Composable
-fun Progress(modifier: Modifier) {
-    Box(
-        modifier = modifier.wrapContentSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        CircularProgressIndicator(
-            modifier = Modifier
-                .width(100.dp)
-                .height(100.dp),
-            progress = { 0.5f },
-            color = Color.Green,
-            trackColor = Color.LightGray,
-            strokeWidth = 10.dp
-        )
-        Text(text = "10/20",style = MaterialTheme.typography.bodySmall)
-    }
-}
-
-@Preview
-@Composable
-fun PracticePreview() {
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
-    ) {
-        PracticeScreen(navController = rememberNavController())
-    }
-}
+//
+//@Composable
+//fun PracticeScreen1(
+//    navController: NavController,
+//    viewModel: PracticeViewModel = hiltViewModel()
+//) {
+//    val state = viewModel.state.collectAsStateWithLifecycle().value
+//
+//    fun done() {
+//
+//    }
+//
+//    fun needPractice() {
+//
+//    }
+//
+//    fun reset() {
+//
+//    }
+//
+//    Column(
+//        modifier = Modifier.fillMaxSize().padding(20.dp),
+//        horizontalAlignment = Alignment.CenterHorizontally
+//    ) {
+//
+//        if (state.vocab.meanings.isNotEmpty()) {
+//            TextButton(
+//                onClick = { /*TODO*/ },
+//                modifier = Modifier
+//            ) {
+//                Text(
+//                    text = "You practiced ${state.doneCount} words",
+//                    style = MaterialTheme.typography.titleMedium
+//                )
+//            }
+//            ProgressCircle(progress = 0.5f)
+//
+//            Text(
+//                "Today's Target",
+//                modifier = Modifier.padding(top = 10.dp),
+//                style = MaterialTheme.typography.bodyMedium
+//            )
+//            Spacer(modifier = Modifier.weight(0.2f))
+//            Vocab(vocab = state.vocab)
+//            Spacer(modifier = Modifier.weight(1f))
+//            OutlinedButton(
+//                modifier = Modifier
+//                    .defaultMinSize(minWidth = 120.dp)
+//                    .fillMaxWidth(0.6f),
+//                shape = RoundedCornerShape(10.dp),
+//                onClick = { done() }
+//            ) {
+//                Text(
+//                    text = stringResource(id = R.string.check),
+//                    fontWeight = FontWeight.W500
+//                )
+//            }
+//            Spacer(modifier = Modifier.height(20.dp))
+//        } else {
+//            Text(text = stringResource(id = R.string.need_practice))
+//        }
+//    }
+//}
+//
+//@Composable
+//fun Vocab(vocab: Vocab) {
+//    Column(
+//        modifier = Modifier
+//            .fillMaxWidth(),
+//        verticalArrangement = Arrangement.Center,
+//        horizontalAlignment = Alignment.CenterHorizontally,
+//    ) {
+//        Spacer(modifier = Modifier.height(20.dp))
+//        Text(
+//            text = vocab.word,
+//            style = MaterialTheme.typography.titleLarge,
+//            fontWeight = FontWeight.W500
+//        )
+//        Spacer(modifier = Modifier.height(16.dp))
+//        Text(
+//            text = vocab.meanings,
+//            style = MaterialTheme.typography.bodyLarge,
+//            fontWeight = FontWeight.W500,
+//        )
+//        Spacer(modifier = Modifier.height(8.dp))
+//    }
+//}
+//
+//
+//@Composable
+//fun ProgressCircle(progress: Float) {
+//    Box(
+//        contentAlignment = Alignment.Center,
+//        modifier = Modifier.size(100.dp)
+//    ) {
+//        Canvas(modifier = Modifier.size(100.dp)) {
+//            drawArc(
+//                color = Color.LightGray,
+//                startAngle = 0f,
+//                sweepAngle = 360f,
+//                useCenter = false,
+//                style = Stroke(width = 15f, cap = StrokeCap.Round),
+//                size = Size(size.width, size.height)
+//            )
+//            drawArc(
+//                color = Color(0xFF4CAF50),
+//                startAngle = -90f,
+//                sweepAngle = 360f * progress,
+//                useCenter = false,
+//                style = Stroke(width = 15f, cap = StrokeCap.Round),
+//                size = Size(size.width, size.height)
+//            )
+//        }
+//        Text(
+//            text = "10/20",
+//            fontSize = 18.sp,
+//            fontWeight = FontWeight.Bold
+//        )
+//    }
+//}
+//
+//@Composable
+//fun Progress(modifier: Modifier) {
+//    Box(
+//        modifier = modifier.wrapContentSize(),
+//        contentAlignment = Alignment.Center
+//    ) {
+//        CircularProgressIndicator(
+//            modifier = Modifier
+//                .width(100.dp)
+//                .height(100.dp),
+//            progress = { 0.5f },
+//            color = Color.Green,
+//            trackColor = Color.LightGray,
+//            strokeWidth = 10.dp
+//        )
+//        Text(text = "10/20",style = MaterialTheme.typography.bodySmall)
+//    }
+//}
+//
+//@Preview
+//@Composable
+//fun PracticePreview() {
+//    Surface(
+//        modifier = Modifier.fillMaxSize(),
+//        color = MaterialTheme.colorScheme.background
+//    ) {
+//        PracticeScreen(navController = rememberNavController())
+//    }
+//}

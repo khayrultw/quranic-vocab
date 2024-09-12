@@ -37,6 +37,10 @@ fun HomeScreen(
         navController.navigate(Screen.Practice.route)
     }
 
+    fun navigateToLearn() {
+        navController.navigate(Screen.Learn.route)
+    }
+
 
     ConstraintLayout {
         val (header, buttons) = createRefs()
@@ -61,7 +65,7 @@ fun HomeScreen(
             VocabButton(
                 title = "Learn",
                 icon = R.drawable.ic_learn,
-                onClick = {}
+                onClick = { navigateToLearn() }
             )
             Spacer(modifier = Modifier.height(16.dp))
             VocabButton(
@@ -94,12 +98,3 @@ fun VocabButton(title: String, icon: Int, onClick: () -> Unit) {
         Text(text = title.uppercase())
     }
 }
-
-fun displayDayOfWeek(dayOfWeek: Int) {
-
-}
-
-/*
-The function should display Monday for the value 1, Tuesday for the value 2 and go on.
-display "Invalid day of week" for any number other than 1 to 7
- */
