@@ -21,6 +21,7 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
@@ -52,17 +53,17 @@ fun ProfileScreen(
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFF2196F3)),
+            .fillMaxSize(),
+            //.background(Color(0xFF0567B4)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(48.dp))
 
         // Profile Picture
-        Box(
-            modifier = Modifier
-                .size(120.dp)
-                .background(Color.White, CircleShape)
+        Icon(
+            Icons.Default.Person,
+            "Person",
+            Modifier.size(80.dp)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -70,13 +71,13 @@ fun ProfileScreen(
         // Name and Email
         Text(
             "Md Khayrul Islam",
-            color = Color.White,
+           // color = Color.White,
             fontWeight = FontWeight.Bold,
             fontSize = 18.sp
         )
         Text(
             "khayrul@gmail.com",
-            color = Color.White.copy(alpha = 0.7f),
+            //color = Color.White.copy(alpha = 0.7f),
             fontSize = 14.sp
         )
 
@@ -104,7 +105,7 @@ fun ProfileScreen(
                         )
                     }
                 }
-                Divider(modifier = Modifier.padding(vertical = 8.dp))
+                HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
                 Text("Learn")
                 if (isEditMode) {
                     TextField(

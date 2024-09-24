@@ -5,8 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Vocab(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int? = null,
+    @PrimaryKey
+    val id: Int,
     val word: String,
     val meanings: String,
     val priority: Priority = Priority.MEDIUM,

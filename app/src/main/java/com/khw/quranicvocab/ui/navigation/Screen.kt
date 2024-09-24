@@ -1,5 +1,6 @@
 package com.khw.quranicvocab.ui.navigation
 
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Book
@@ -18,9 +19,9 @@ sealed class Screen(val route: String, @StringRes val resId: Int) {
 sealed class NestedScreen(
     val route: String,
     @StringRes val resId: Int,
-    val icon: ImageVector
+    @DrawableRes val icon:  Int
 ) {
-    data object Home: NestedScreen("home", R.string.profile, Icons.Default.Home)
-    data object Vocabs: NestedScreen("vocabs", R.string.vocabs, Icons.Default.Book)
-    data object Profile: NestedScreen("practice", R.string.profile, Icons.Default.Person)
+    data object Home: NestedScreen("home", R.string.profile, R.drawable.ic_home)
+    data object Vocabs: NestedScreen("vocabs", R.string.vocabs, R.drawable.ic_list)
+    data object Profile: NestedScreen("practice", R.string.profile, R.drawable.ic_profile)
 }

@@ -20,8 +20,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.khw.quranicvocab.ui.composables.OutlineButtonQ
-import com.khw.quranicvocab.ui.composables.PopupQ
-import com.khw.quranicvocab.ui.composables.ProgressCircle
+import com.khw.quranicvocab.ui.composables.ProgressCircleQ
 
 @Composable
 fun LearnScreen(navController: NavController =  rememberNavController()) {
@@ -47,7 +46,7 @@ fun LearnScreen(navController: NavController =  rememberNavController()) {
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            ProgressCircle(current = 10, total = 20)
+            ProgressCircleQ(current = 10, total = 20)
 
             Spacer(modifier = Modifier.height(8.dp))
 

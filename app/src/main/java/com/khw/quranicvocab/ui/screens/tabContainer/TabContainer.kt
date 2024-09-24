@@ -13,6 +13,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -44,7 +45,7 @@ fun TabContainer(
 
                 items.forEach { screen ->
                     NavigationBarItem (
-                        icon = { Icon(screen.icon, "") },
+                        icon = { Icon(painter = painterResource(screen.icon), "") },
                         label = { Text(stringResource(screen.resId)) },
                         selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                         colors = NavigationBarItemDefaults.colors(

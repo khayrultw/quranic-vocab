@@ -1,7 +1,6 @@
 package com.khw.quranicvocab
 
 import android.app.Application
-import android.util.Log
 import com.khw.quranicvocab.data.model.Vocab
 import com.khw.quranicvocab.data.repo.VocabRepo
 import dagger.hilt.android.HiltAndroidApp
@@ -25,20 +24,22 @@ class MyApp: Application() {
         val reader = BufferedReader(InputStreamReader(`is`))
         val ioScope = CoroutineScope(SupervisorJob())
 
+
         ioScope.launch(Dispatchers.IO) {
             repo.clear()
             while (true) {
                 try {
                     reader.readLine()?.also {
-                        val wp = it.split("->")
-                        if(wp.size > 1) {
-                            vocabs[wp[0]] = wp[1]
-                            val vocab = Vocab(word = wp[0], meanings = wp[1])
+                        val wp = it.split("#")
+                        if(wp.size == 3) {
+                            vocabs[wp[1]] = wp[2]
+                            val vocab = Vocab(id = wp[0].toInt(), word = wp[1], meanings = wp[2])
                             repo.insert(vocab)
                         }
                     } ?: break
                 } catch (e: Exception) {
                     e.printStackTrace()
+                    throw e
                 }
             }
             `is`.close()

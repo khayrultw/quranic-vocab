@@ -16,7 +16,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.StrokeCap
 
 @Composable
-fun ProgressCircle(
+fun ProgressCircleQ(
     current: Int,
     total: Int
 ) {

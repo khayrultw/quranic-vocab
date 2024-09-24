@@ -1,25 +1,24 @@
 package com.khw.quranicvocab.ui.screens.practice
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.khw.quranicvocab.ui.composables.ProgressCircle
+import com.khw.quranicvocab.ui.composables.OutlineButtonQ
+import com.khw.quranicvocab.ui.composables.ProgressCircleQ
 
 @Composable
 fun PracticeScreen(
@@ -52,7 +51,7 @@ fun PracticeScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            ProgressCircle(current = 10, total = 20)
+            ProgressCircleQ(current = 10, total = 20)
 
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -62,7 +61,7 @@ fun PracticeScreen(
                 fontWeight = FontWeight.Medium
             )
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.weight(0.4f))
 
             Text(
                 "المُؤمِنون",
@@ -101,24 +100,22 @@ fun PracticeScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.weight(0.6f))
 
-            Button(
+            OutlineButtonQ(
                 onClick = {
                     isAnswerChecked = true
                     isAnswerCorrect = selectedAnswer == correctAnswer
                 },
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxWidth(0.6f)
                     .height(56.dp),
-                colors = ButtonDefaults.buttonColors(
-                    contentColor = when {
-                        !isAnswerChecked -> Color(0xFF2196F3)
-                        isAnswerCorrect -> Color.Green
-                        else -> Color.Red
-                    }
-                ),
-                shape = RoundedCornerShape(8.dp)
+                color = when {
+                    !isAnswerChecked -> Color(0xFF2196F3)
+                    isAnswerCorrect -> Color.Green
+                    else -> Color.Red
+                }
+
             ) {
                 Text(
                     when {
@@ -126,11 +123,23 @@ fun PracticeScreen(
                         isAnswerCorrect -> "Next"
                         else -> "Try Again"
                     },
-                    color = Color.White,
                     fontSize = 18.sp
                 )
             }
+            Spacer(modifier = Modifier.height(16.dp))
         }
+    }
+}
+
+
+@Preview
+@Composable
+fun PracticePreview() {
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background
+    ) {
+        PracticeScreen(navController = rememberNavController())
     }
 }
 
@@ -274,13 +283,3 @@ fun PracticeScreen(
 //    }
 //}
 //
-//@Preview
-//@Composable
-//fun PracticePreview() {
-//    Surface(
-//        modifier = Modifier.fillMaxSize(),
-//        color = MaterialTheme.colorScheme.background
-//    ) {
-//        PracticeScreen(navController = rememberNavController())
-//    }
-//}
